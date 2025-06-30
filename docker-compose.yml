@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  penpot-export:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../../packages/design-tokens/tokens:/tokens
+    environment:
+      - PENPOT_FILE_ID=${PENPOT_FILE_ID}
+      - PENPOT_ACCESS_TOKEN=${PENPOT_ACCESS_TOKEN}
+      - PENPOT_TEAM_ID=${PENPOT_TEAM_ID}
+      - PENPOT_BASE_URL=${PENPOT_BASE_URL:-https://design.penpot.app}
+    profiles:
+      - penpot-sync
