@@ -60,6 +60,7 @@ mimic-tokens init
 ```
 
 This will prompt you for:
+
 - **Penpot File ID** - Found in your Penpot file URL
 - **Access Token** - Generated in Penpot Profile → Access Tokens
 - **Team ID** - Found in workspace settings (optional)
@@ -88,6 +89,7 @@ mimic-tokens watch
 ## 📋 Commands
 
 ### `mimic-tokens init`
+
 Interactive setup wizard for Penpot credentials and configuration.
 
 ```bash
@@ -98,6 +100,7 @@ Options:
 ```
 
 ### `mimic-tokens export`
+
 Export design tokens from Penpot in W3C DTCG format.
 
 ```bash
@@ -111,6 +114,7 @@ Options:
 ```
 
 ### `mimic-tokens build`
+
 Transform tokens using Style Dictionary into platform-specific formats.
 
 ```bash
@@ -123,6 +127,7 @@ Options:
 ```
 
 ### `mimic-tokens sync`
+
 Combined export and build workflow.
 
 ```bash
@@ -133,6 +138,7 @@ Options:
 ```
 
 ### `mimic-tokens watch`
+
 Watch for token file changes and rebuild automatically.
 
 ```bash
@@ -143,6 +149,7 @@ Options:
 ```
 
 ### `mimic-tokens validate`
+
 Validate design tokens against W3C DTCG schema.
 
 ```bash
@@ -154,6 +161,7 @@ Options:
 ```
 
 ### `mimic-tokens diff`
+
 Compare design tokens between branches or commits.
 
 ```bash
@@ -166,6 +174,7 @@ Options:
 ```
 
 ### `mimic-tokens status`
+
 Show status of design token pipeline and health checks.
 
 ```bash
@@ -394,17 +403,20 @@ fun Button() {
 ### Common Issues
 
 **Export fails with authentication error:**
+
 ```bash
 mimic-tokens status  # Check credentials
 ```
 
 **Build errors:**
+
 ```bash
 rm -rf libs/
 mimic-tokens build  # Clean rebuild
 ```
 
 **Watch mode not working:**
+
 ```bash
 CHOKIDAR_USEPOLLING=true mimic-tokens watch  # For network drives
 ```

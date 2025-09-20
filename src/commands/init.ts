@@ -1,8 +1,8 @@
-import { Command } from 'commander';
 import chalk from 'chalk';
-import ora from 'ora';
-import inquirer from 'inquirer';
+import { Command } from 'commander';
 import fs from 'fs-extra';
+import inquirer from 'inquirer';
+import ora from 'ora';
 
 interface InitOptions {
   force?: boolean;

@@ -1,7 +1,7 @@
-import { Command } from 'commander';
 import chalk from 'chalk';
-import chokidar from 'chokidar';
 import { execSync } from 'child_process';
+import chokidar from 'chokidar';
+import { Command } from 'commander';
 import path from 'path';
 
 interface WatchOptions {
@@ -33,8 +33,9 @@ export const watchCommand = new Command('watch')
         try {
           execSync('mimic-tokens build', { stdio: 'pipe' });
           console.log(chalk.green('✅ Rebuild completed successfully'));
-        } catch (error) {
-          console.error(chalk.red('❌ Rebuild failed:'), error);
+        } catch (_error: unknown) {
+          const err = _error instanceof Error ? _error : new Error(String(_error));
+          console.error(chalk.red('❌ Rebuild failed:'), err);
         }
       }, debounceMs);
     };
@@ -67,8 +68,9 @@ export const watchCommand = new Command('watch')
     try {
       execSync('mimic-tokens build', { stdio: 'pipe' });
       console.log(chalk.green('✅ Initial build completed'));
-    } catch (error) {
-      console.error(chalk.red('❌ Initial build failed:'), error);
+    } catch (_error: unknown) {
+      const err = _error instanceof Error ? _error : new Error(String(_error));
+      console.error(chalk.red('❌ Initial build failed:'), err);
     }
     
     console.log(chalk.cyan(`\n👀 Watching ${tokensPath} for changes...`));
@@ -76,7 +78,7 @@ export const watchCommand = new Command('watch')
     // Keep the process alive
     process.on('SIGINT', () => {
       console.log(chalk.yellow('\n🛑 Stopping watch mode...'));
-      watcher.close();
+      void watcher.close();
       process.exit(0);
     });
   });

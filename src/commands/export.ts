@@ -1,9 +1,9 @@
-import { Command } from 'commander';
-import chalk from 'chalk';
-import ora from 'ora';
-import fs from 'fs-extra';
 import axios from 'axios';
+import chalk from 'chalk';
+import { Command } from 'commander';
 import dotenv from 'dotenv';
+import fs from 'fs-extra';
+import ora from 'ora';
 import path from 'path';
 
 interface ExportOptions {
@@ -49,7 +49,7 @@ export const exportCommand = new Command('export')
             'Authorization': `Bearer ${accessToken}`,
           },
         });
-      } catch (error) {
+      } catch {
         spinner.fail('Failed to connect to Penpot API. Check your credentials.');
         process.exit(1);
       }

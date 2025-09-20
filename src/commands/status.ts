@@ -1,9 +1,9 @@
-import { Command } from 'commander';
-import chalk from 'chalk';
-import ora from 'ora';
-import fs from 'fs-extra';
 import axios from 'axios';
+import chalk from 'chalk';
+import { Command } from 'commander';
 import dotenv from 'dotenv';
+import fs from 'fs-extra';
+import ora from 'ora';
 import path from 'path';
 
 export const statusCommand = new Command('status')
@@ -83,7 +83,7 @@ export const statusCommand = new Command('status')
           console.log(`  • ${file}: ${chalk.gray(timeAgo)}`);
         }
       }
-    } catch (error) {
+    } catch {
       console.log(chalk.red('  Error reading token files'));
     }
     

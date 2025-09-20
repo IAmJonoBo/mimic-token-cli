@@ -1,8 +1,8 @@
-import { Command } from 'commander';
-import chalk from 'chalk';
-import ora from 'ora';
-import fs from 'fs-extra';
 import Ajv from 'ajv';
+import chalk from 'chalk';
+import { Command } from 'commander';
+import fs from 'fs-extra';
+import ora from 'ora';
 import path from 'path';
 
 interface ValidateOptions {
@@ -89,7 +89,7 @@ export const validateCommand = new Command('validate')
               });
             }
           }
-        } catch (error) {
+        } catch {
           invalidFiles++;
           console.log(chalk.red(`❌ ${path.relative(process.cwd(), file)}: Invalid JSON`));
         }

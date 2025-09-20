@@ -1,7 +1,7 @@
-import { Command } from 'commander';
 import chalk from 'chalk';
-import ora from 'ora';
 import { execSync } from 'child_process';
+import { Command } from 'commander';
+import ora from 'ora';
 
 interface SyncOptions {
   watch?: boolean;

@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
 import chalk from 'chalk';
-import { exportCommand } from './commands/export.js';
+import { Command } from 'commander';
+
 import { buildCommand } from './commands/build.js';
-import { watchCommand } from './commands/watch.js';
+import { diffCommand } from './commands/diff.js';
+import { exportCommand } from './commands/export.js';
+import { initCommand } from './commands/init.js';
+import { statusCommand } from './commands/status.js';
 import { syncCommand } from './commands/sync.js';
 import { validateCommand } from './commands/validate.js';
-import { initCommand } from './commands/init.js';
-import { diffCommand } from './commands/diff.js';
-import { statusCommand } from './commands/status.js';
+import { watchCommand } from './commands/watch.js';
 
 const program = new Command();
 

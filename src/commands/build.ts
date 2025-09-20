@@ -1,9 +1,9 @@
-import { Command } from 'commander';
 import chalk from 'chalk';
-import ora from 'ora';
 import { execSync } from 'child_process';
-import path from 'path';
+import { Command } from 'commander';
 import fs from 'fs-extra';
+import ora from 'ora';
+import path from 'path';
 
 interface BuildOptions {
   watch?: boolean;
@@ -74,9 +74,10 @@ export const buildCommand = new Command('build')
         console.log('  • Run: mimic-tokens validate (to verify outputs)');
       }
       
-    } catch (error) {
+    } catch (_error: unknown) {
       spinner.fail('Build failed');
-      console.error(chalk.red('Error:'), error);
+      const err = _error instanceof Error ? _error : new Error(String(_error));
+      console.error(chalk.red('Error:'), err);
       process.exit(1);
     }
   });

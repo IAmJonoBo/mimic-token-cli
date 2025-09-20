@@ -1,8 +1,7 @@
-import { Command } from 'commander';
 import chalk from 'chalk';
 import { execSync } from 'child_process';
+import { Command } from 'commander';
 import fs from 'fs-extra';
-import path from 'path';
 
 interface DiffOptions {
   base?: string;
@@ -30,14 +29,14 @@ export const diffCommand = new Command('diff')
       try {
         const baseContent = execSync(`git show ${baseRef}:${tokensPath}`, { encoding: 'utf8' });
         baseTokens = JSON.parse(baseContent);
-      } catch (error) {
+      } catch {
         console.log(chalk.yellow(`⚠️ No tokens found in ${baseRef}`));
       }
-      
+
       try {
         const headContent = execSync(`git show ${headRef}:${tokensPath}`, { encoding: 'utf8' });
         headTokens = JSON.parse(headContent);
-      } catch (error) {
+      } catch {
         console.log(chalk.yellow(`⚠️ No tokens found in ${headRef}`));
       }
       
