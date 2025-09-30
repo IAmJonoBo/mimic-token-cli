@@ -1,6 +1,8 @@
 # Mimic Token CLI
 
-A powerful command-line tool for managing design tokens in the Mimic ecosystem. Export tokens from Penpot, transform them with Style Dictionary, and generate platform-specific outputs for web, mobile, and desktop applications.
+A powerful command-line tool for managing design tokens in the Mimic ecosystem. Export tokens from
+Penpot, transform them with Style Dictionary, and generate platform-specific outputs for web,
+mobile, and desktop applications.
 
 ## 🚀 Quick Start
 
