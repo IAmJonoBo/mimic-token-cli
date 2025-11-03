@@ -1,11 +1,11 @@
 {
-  "name": "mimic-token-cli",
+  "name": "n00plicate-token-cli",
   "version": "1.0.0",
   "description": "CLI tool for managing design tokens with Penpot and Style Dictionary integration",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "mimic-tokens": "dist/cli.js"
+    "n00plicate-tokens": "dist/cli.js"
   },
   "keywords": [
     "design-tokens",
@@ -18,12 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/mimic-token-cli.git"
+    "url": "https://github.com/your-org/n00plicate-token-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/mimic-token-cli/issues"
+    "url": "https://github.com/your-org/n00plicate-token-cli/issues"
   },
-  "homepage": "https://github.com/your-org/mimic-token-cli#readme",
+  "homepage": "https://github.com/your-org/n00plicate-token-cli#readme",
   "files": [
     "dist",
     "templates"

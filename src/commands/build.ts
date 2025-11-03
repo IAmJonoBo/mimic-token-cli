@@ -71,7 +71,7 @@ export const buildCommand = new Command('build')
         console.log(chalk.cyan('\n📋 Next steps:'));
         console.log('  • Check generated files in packages/design-tokens/libs/');
         console.log('  • Import tokens in your applications');
-        console.log('  • Run: mimic-tokens validate (to verify outputs)');
+        console.log('  • Run: n00plicate-tokens validate (to verify outputs)');
       }
       
     } catch (_error: unknown) {

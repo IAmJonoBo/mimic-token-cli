@@ -31,7 +31,7 @@ export const watchCommand = new Command('watch')
         console.log(chalk.yellow('🔄 Rebuilding tokens...'));
         
         try {
-          execSync('mimic-tokens build', { stdio: 'pipe' });
+          execSync('n00plicate-tokens build', { stdio: 'pipe' });
           console.log(chalk.green('✅ Rebuild completed successfully'));
         } catch (_error: unknown) {
           const err = _error instanceof Error ? _error : new Error(String(_error));
@@ -66,7 +66,7 @@ export const watchCommand = new Command('watch')
     // Initial build
     console.log(chalk.yellow('🔄 Initial build...'));
     try {
-      execSync('mimic-tokens build', { stdio: 'pipe' });
+      execSync('n00plicate-tokens build', { stdio: 'pipe' });
       console.log(chalk.green('✅ Initial build completed'));
     } catch (_error: unknown) {
       const err = _error instanceof Error ? _error : new Error(String(_error));

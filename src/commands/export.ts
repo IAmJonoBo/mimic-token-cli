@@ -177,8 +177,8 @@ export const exportCommand = new Command('export')
       console.log(`  • Typography tokens: ${Object.keys(sampleTokens.typography).length} categories`);
       
       console.log(chalk.cyan('\n📋 Next steps:'));
-      console.log('  • Run: mimic-tokens build (to generate platform outputs)');
-      console.log('  • Run: mimic-tokens validate (to check token structure)');
+      console.log('  • Run: n00plicate-tokens build (to generate platform outputs)');
+      console.log('  • Run: n00plicate-tokens validate (to check token structure)');
       
     } catch (error) {
       spinner.fail('Export failed');

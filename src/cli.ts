@@ -15,14 +15,14 @@ import { watchCommand } from './commands/watch.js';
 const program = new Command();
 
 program
-  .name('mimic-tokens')
-  .description('CLI tool for managing design tokens in the Mimic monorepo')
+  .name('n00plicate-tokens')
+  .description('CLI tool for managing design tokens in the n00plicate monorepo')
   .version('1.0.0');
 
 // Banner
 console.log(chalk.cyan(`
 ╭─────────────────────────────────────────╮
-│  🎨 Mimic Design Token CLI              │
+│  🎨 n00plicate Design Token CLI              │
 │     Penpot → Style Dictionary → Apps    │
 ╰─────────────────────────────────────────╯
 `));

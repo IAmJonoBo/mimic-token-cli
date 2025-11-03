@@ -17,16 +17,16 @@ export const syncCommand = new Command('sync')
       spinner.text = 'Exporting tokens from Penpot...';
       
       // Run export using the CLI
-      execSync('mimic-tokens export --force', { stdio: 'pipe' });
+      execSync('n00plicate-tokens export --force', { stdio: 'pipe' });
       
       spinner.text = 'Building Style Dictionary outputs...';
       
       // Run build
       if (options.watch) {
         spinner.succeed('Export completed. Starting watch mode...');
-        execSync('mimic-tokens build --watch', { stdio: 'inherit' });
+        execSync('n00plicate-tokens build --watch', { stdio: 'inherit' });
       } else {
-        execSync('mimic-tokens build', { stdio: 'pipe' });
+        execSync('n00plicate-tokens build', { stdio: 'pipe' });
         
         spinner.succeed('Token sync completed successfully!');
         

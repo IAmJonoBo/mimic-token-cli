@@ -1,6 +1,6 @@
-# Mimic Token CLI
+# n00plicate Token CLI
 
-A powerful command-line tool for managing design tokens in the Mimic ecosystem. Export tokens from
+A powerful command-line tool for managing design tokens in the n00plicate ecosystem. Export tokens from
 Penpot, transform them with Style Dictionary, and generate platform-specific outputs for web,
 mobile, and desktop applications.
 
@@ -8,19 +8,19 @@ mobile, and desktop applications.
 
 ```bash
 # Install globally
-npm install -g mimic-token-cli
+npm install -g n00plicate-token-cli
 
 # Initialize in your project
-mimic-tokens init
+n00plicate-tokens init
 
 # Export tokens from Penpot
-mimic-tokens export
+n00plicate-tokens export
 
 # Build platform outputs
-mimic-tokens build
+n00plicate-tokens build
 
 # Watch for changes
-mimic-tokens watch
+n00plicate-tokens watch
 ```
 
 ## 🎯 Features
@@ -38,19 +38,19 @@ mimic-tokens watch
 ### Global Installation (Recommended)
 
 ```bash
-npm install -g mimic-token-cli
+npm install -g n00plicate-token-cli
 # or
-pnpm add -g mimic-token-cli
+pnpm add -g n00plicate-token-cli
 # or
-yarn global add mimic-token-cli
+yarn global add n00plicate-token-cli
 ```
 
 ### Local Installation
 
 ```bash
-npm install mimic-token-cli
+npm install n00plicate-token-cli
 # or
-pnpm add mimic-token-cli
+pnpm add n00plicate-token-cli
 ```
 
 ## 🏁 Quick Start
@@ -58,7 +58,7 @@ pnpm add mimic-token-cli
 ### 1. Initialize Configuration
 
 ```bash
-mimic-tokens init
+n00plicate-tokens init
 ```
 
 This will prompt you for:
@@ -71,42 +71,42 @@ This will prompt you for:
 ### 2. Check Setup
 
 ```bash
-mimic-tokens status
+n00plicate-tokens status
 ```
 
 ### 3. Sync Tokens
 
 ```bash
 # Export from Penpot + build all platforms
-mimic-tokens sync
+n00plicate-tokens sync
 ```
 
 ### 4. Development Mode
 
 ```bash
 # Watch for changes and auto-rebuild
-mimic-tokens watch
+n00plicate-tokens watch
 ```
 
 ## 📋 Commands
 
-### `mimic-tokens init`
+### `n00plicate-tokens init`
 
 Interactive setup wizard for Penpot credentials and configuration.
 
 ```bash
-mimic-tokens init [options]
+n00plicate-tokens init [options]
 
 Options:
   -f, --force    Overwrite existing configuration
 ```
 
-### `mimic-tokens export`
+### `n00plicate-tokens export`
 
 Export design tokens from Penpot in W3C DTCG format.
 
 ```bash
-mimic-tokens export [options]
+n00plicate-tokens export [options]
 
 Options:
   -o, --output <path>    Output file path (default: packages/design-tokens/tokens/base.json)
@@ -115,12 +115,12 @@ Options:
   --force                Overwrite existing files
 ```
 
-### `mimic-tokens build`
+### `n00plicate-tokens build`
 
 Transform tokens using Style Dictionary into platform-specific formats.
 
 ```bash
-mimic-tokens build [options]
+n00plicate-tokens build [options]
 
 Options:
   -p, --platform <name>  Build specific platform (css, ts, react-native, compose)
@@ -128,46 +128,46 @@ Options:
   -c, --config <path>   Custom Style Dictionary config
 ```
 
-### `mimic-tokens sync`
+### `n00plicate-tokens sync`
 
 Combined export and build workflow.
 
 ```bash
-mimic-tokens sync [options]
+n00plicate-tokens sync [options]
 
 Options:
   -w, --watch    Watch for changes after sync
 ```
 
-### `mimic-tokens watch`
+### `n00plicate-tokens watch`
 
 Watch for token file changes and rebuild automatically.
 
 ```bash
-mimic-tokens watch [options]
+n00plicate-tokens watch [options]
 
 Options:
   -d, --debounce <ms>    Debounce delay in milliseconds (default: 500)
 ```
 
-### `mimic-tokens validate`
+### `n00plicate-tokens validate`
 
 Validate design tokens against W3C DTCG schema.
 
 ```bash
-mimic-tokens validate [options]
+n00plicate-tokens validate [options]
 
 Options:
   -s, --schema <path>    Custom schema file
   -t, --tokens <path>    Tokens directory or file
 ```
 
-### `mimic-tokens diff`
+### `n00plicate-tokens diff`
 
 Compare design tokens between branches or commits.
 
 ```bash
-mimic-tokens diff [options]
+n00plicate-tokens diff [options]
 
 Options:
   -b, --base <ref>       Base branch or commit (default: main)
@@ -175,12 +175,12 @@ Options:
   -o, --output <path>    Output file for diff report
 ```
 
-### `mimic-tokens status`
+### `n00plicate-tokens status`
 
 Show status of design token pipeline and health checks.
 
 ```bash
-mimic-tokens status
+n00plicate-tokens status
 ```
 
 ## 🏗️ Project Structure
@@ -274,13 +274,13 @@ jobs:
           node-version: '20'
       
       - name: Install CLI
-        run: npm install -g mimic-token-cli
+        run: npm install -g n00plicate-token-cli
       
       - name: Export & Build Tokens
         env:
           PENPOT_ACCESS_TOKEN: ${{ secrets.PENPOT_ACCESS_TOKEN }}
           PENPOT_FILE_ID: ${{ secrets.PENPOT_FILE_ID }}
-        run: mimic-tokens sync
+        run: n00plicate-tokens sync
       
       - name: Create Pull Request
         if: success()
@@ -304,7 +304,7 @@ fi
 
 # Validate tokens if changed
 if git diff --cached --name-only | grep -q "tokens/"; then
-  mimic-tokens validate
+  n00plicate-tokens validate
 fi
 ```
 
@@ -314,39 +314,39 @@ fi
 
 ```bash
 # Start development with auto-rebuilding
-mimic-tokens watch
+n00plicate-tokens watch
 
 # In another terminal, make changes in Penpot
 # CLI automatically detects and rebuilds tokens
 
 # Check what changed
-mimic-tokens diff
+n00plicate-tokens diff
 ```
 
 ### Release Workflow
 
 ```bash
 # Before release, sync everything
-mimic-tokens sync
+n00plicate-tokens sync
 
 # Validate all tokens
-mimic-tokens validate
+n00plicate-tokens validate
 
 # Generate change report
-mimic-tokens diff --base v1.0.0 --head HEAD --output CHANGELOG.md
+n00plicate-tokens diff --base v1.0.0 --head HEAD --output CHANGELOG.md
 ```
 
 ### Platform-Specific Development
 
 ```bash
 # Work only with CSS tokens
-mimic-tokens build --platform css --watch
+n00plicate-tokens build --platform css --watch
 
 # Build for React Native
-mimic-tokens build --platform react-native
+n00plicate-tokens build --platform react-native
 
 # Custom config for special builds
-mimic-tokens build --config custom-config.js
+n00plicate-tokens build --config custom-config.js
 ```
 
 ## 🔧 Platform Integration
@@ -407,28 +407,28 @@ fun Button() {
 **Export fails with authentication error:**
 
 ```bash
-mimic-tokens status  # Check credentials
+n00plicate-tokens status  # Check credentials
 ```
 
 **Build errors:**
 
 ```bash
 rm -rf libs/
-mimic-tokens build  # Clean rebuild
+n00plicate-tokens build  # Clean rebuild
 ```
 
 **Watch mode not working:**
 
 ```bash
-CHOKIDAR_USEPOLLING=true mimic-tokens watch  # For network drives
+CHOKIDAR_USEPOLLING=true n00plicate-tokens watch  # For network drives
 ```
 
 ### Debug Mode
 
-Set `DEBUG=mimic-tokens:*` for verbose logging:
+Set `DEBUG=n00plicate-tokens:*` for verbose logging:
 
 ```bash
-DEBUG=mimic-tokens:* mimic-tokens sync
+DEBUG=n00plicate-tokens:* n00plicate-tokens sync
 ```
 
 ## 📚 Documentation
@@ -451,8 +451,8 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/IAmJonoBo/mimic-token-cli/issues)
-- **Discussions**: [Community help and ideas](https://github.com/IAmJonoBo/mimic-token-cli/discussions)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/IAmJonoBo/n00plicate-token-cli/issues)
+- **Discussions**: [Community help and ideas](https://github.com/IAmJonoBo/n00plicate-token-cli/discussions)
 
 ---
 
