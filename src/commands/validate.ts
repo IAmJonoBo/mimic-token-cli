@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import ora from 'ora';
-import path from 'path';
+import path from 'node:path';
 
 interface ValidateOptions {
   schema?: string;
@@ -18,7 +18,8 @@ export const validateCommand = new Command('validate')
     const spinner = ora('Validating design tokens...').start();
     
     try {
-      const tokensPath = path.resolve(options.tokens!);
+      const tokensRoot = options.tokens ?? 'packages/design-tokens/tokens';
+      const tokensPath = path.resolve(tokensRoot);
       
       // Check if tokens exist
       if (!await fs.pathExists(tokensPath)) {

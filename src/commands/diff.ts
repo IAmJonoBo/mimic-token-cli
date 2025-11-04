@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
+import { isDeepStrictEqual } from 'node:util';
 import { Command } from 'commander';
 import fs from 'fs-extra';
 
@@ -23,19 +24,19 @@ export const diffCommand = new Command('diff')
       console.log(chalk.cyan(`🔍 Comparing tokens: ${baseRef}...${headRef}`));
       
       // Get token files from both refs
-      let baseTokens: any = {};
-      let headTokens: any = {};
+      let baseTokens: TokenValue = {};
+      let headTokens: TokenValue = {};
       
       try {
         const baseContent = execSync(`git show ${baseRef}:${tokensPath}`, { encoding: 'utf8' });
-        baseTokens = JSON.parse(baseContent);
+        baseTokens = parseTokenValue(baseContent);
       } catch {
         console.log(chalk.yellow(`⚠️ No tokens found in ${baseRef}`));
       }
 
       try {
         const headContent = execSync(`git show ${headRef}:${tokensPath}`, { encoding: 'utf8' });
-        headTokens = JSON.parse(headContent);
+        headTokens = parseTokenValue(headContent);
       } catch {
         console.log(chalk.yellow(`⚠️ No tokens found in ${headRef}`));
       }
@@ -59,114 +60,108 @@ export const diffCommand = new Command('diff')
     }
   });
 
+type TokenValue = unknown;
+type TokenNode = Record<string, TokenValue>;
+
 interface TokenChange {
   path: string;
   type: 'added' | 'removed' | 'modified';
-  oldValue?: any;
-  newValue?: any;
+  oldValue?: TokenValue;
+  newValue?: TokenValue;
 }
 
-function compareTokens(base: any, head: any, path = ''): TokenChange[] {
-  const changes: TokenChange[] = [];
-  
-  // Get all unique keys
-  const allKeys = new Set([
-    ...Object.keys(base || {}),
-    ...Object.keys(head || {})
-  ]);
-  
-  for (const key of allKeys) {
-    const currentPath = path ? `${path}.${key}` : key;
-    const baseValue = base?.[key];
-    const headValue = head?.[key];
-    
-    if (baseValue === undefined) {
-      // Added
-      changes.push({
-        path: currentPath,
-        type: 'added',
-        newValue: headValue
-      });
-    } else if (headValue === undefined) {
-      // Removed
-      changes.push({
-        path: currentPath,
-        type: 'removed',
-        oldValue: baseValue
-      });
-    } else if (typeof baseValue === 'object' && typeof headValue === 'object') {
-      // Recursively compare objects
-      if (!baseValue.$value && !headValue.$value) {
-        changes.push(...compareTokens(baseValue, headValue, currentPath));
-      } else {
-        // Token with $value
-        if (JSON.stringify(baseValue) !== JSON.stringify(headValue)) {
-          changes.push({
-            path: currentPath,
-            type: 'modified',
-            oldValue: baseValue,
-            newValue: headValue
-          });
-        }
-      }
-    } else if (baseValue !== headValue) {
-      // Modified
-      changes.push({
-        path: currentPath,
-        type: 'modified',
-        oldValue: baseValue,
-        newValue: headValue
-      });
-    }
+function parseTokenValue(raw: string): TokenValue {
+  try {
+    return JSON.parse(raw) as TokenValue;
+  } catch {
+    return {};
   }
-  
+}
+
+function isTokenNode(value: TokenValue): value is TokenNode {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function compareTokens(base: TokenValue, head: TokenValue, path = ''): TokenChange[] {
+  const changes: TokenChange[] = [];
+
+  if (isTokenNode(base) && isTokenNode(head)) {
+    const allKeys = new Set([...Object.keys(base), ...Object.keys(head)]);
+    for (const key of allKeys) {
+      const currentPath = path ? `${path}.${key}` : key;
+      const baseValue = base[key];
+      const headValue = head[key];
+
+      if (!(key in head)) {
+        changes.push({ path: currentPath, type: 'removed', oldValue: baseValue });
+        continue;
+      }
+      if (!(key in base)) {
+        changes.push({ path: currentPath, type: 'added', newValue: headValue });
+        continue;
+      }
+
+      changes.push(...compareTokens(baseValue, headValue, currentPath));
+    }
+    return changes;
+  }
+
+  if (base === undefined && head !== undefined) {
+    changes.push({ path, type: 'added', newValue: head });
+  } else if (head === undefined && base !== undefined) {
+    changes.push({ path, type: 'removed', oldValue: base });
+  } else if (!isDeepStrictEqual(base, head)) {
+    changes.push({ path, type: 'modified', oldValue: base, newValue: head });
+  }
+
   return changes;
 }
 
 function generateDiffReport(changes: TokenChange[], baseRef: string, headRef: string): string {
-  let report = `# Design Token Changes\n\n`;
-  report += `**Comparing:** \`${baseRef}\` → \`${headRef}\`\n`;
-  report += `**Date:** ${new Date().toISOString()}\n\n`;
-  
+  const lines: string[] = [];
+  lines.push('# Design Token Changes', '');
+  lines.push(`**Comparing:** \`${baseRef}\` → \`${headRef}\``);
+  lines.push(`**Date:** ${new Date().toISOString()}`, '');
+
   if (changes.length === 0) {
-    report += `✅ No token changes detected.\n`;
-    return report;
+    lines.push('✅ No token changes detected.');
+    return lines.join('\n');
   }
-  
-  const added = changes.filter(c => c.type === 'added');
-  const removed = changes.filter(c => c.type === 'removed');
-  const modified = changes.filter(c => c.type === 'modified');
-  
-  report += `## Summary\n\n`;
-  report += `- 🟢 Added: ${added.length}\n`;
-  report += `- 🔴 Removed: ${removed.length}\n`;
-  report += `- 🟡 Modified: ${modified.length}\n`;
-  report += `- **Total Changes:** ${changes.length}\n\n`;
-  
+
+  const added = changes.filter((change) => change.type === 'added');
+  const removed = changes.filter((change) => change.type === 'removed');
+  const modified = changes.filter((change) => change.type === 'modified');
+
+  lines.push('## Summary', '');
+  lines.push(`- 🟢 Added: ${added.length}`);
+  lines.push(`- 🔴 Removed: ${removed.length}`);
+  lines.push(`- 🟡 Modified: ${modified.length}`);
+  lines.push(`- **Total Changes:** ${changes.length}`, '');
+
   if (added.length > 0) {
-    report += `## 🟢 Added Tokens\n\n`;
+    lines.push('## 🟢 Added Tokens', '');
     for (const change of added) {
-      report += `- \`${change.path}\`: ${JSON.stringify(change.newValue)}\n`;
+      lines.push(`- \`${change.path}\`: ${JSON.stringify(change.newValue)}`);
     }
-    report += `\n`;
+    lines.push('');
   }
-  
+
   if (removed.length > 0) {
-    report += `## 🔴 Removed Tokens\n\n`;
+    lines.push('## 🔴 Removed Tokens', '');
     for (const change of removed) {
-      report += `- \`${change.path}\`: ${JSON.stringify(change.oldValue)}\n`;
+      lines.push(`- \`${change.path}\`: ${JSON.stringify(change.oldValue)}`);
     }
-    report += `\n`;
+    lines.push('');
   }
-  
+
   if (modified.length > 0) {
-    report += `## 🟡 Modified Tokens\n\n`;
+    lines.push('## 🟡 Modified Tokens', '');
     for (const change of modified) {
-      report += `- \`${change.path}\`:\n`;
-      report += `  - **Before:** ${JSON.stringify(change.oldValue)}\n`;
-      report += `  - **After:** ${JSON.stringify(change.newValue)}\n`;
+      lines.push(`- \`${change.path}\`:`);
+      lines.push(`  - **Before:** ${JSON.stringify(change.oldValue)}`);
+      lines.push(`  - **After:** ${JSON.stringify(change.newValue)}`);
     }
   }
-  
-  return report;
+
+  return lines.join('\n');
 }

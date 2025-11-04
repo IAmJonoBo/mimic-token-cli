@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import ora from 'ora';
-import path from 'path';
+import path from 'node:path';
 
 interface BuildOptions {
   watch?: boolean;
@@ -20,7 +20,7 @@ export const buildCommand = new Command('build')
     const spinner = ora('Building design tokens...').start();
     
     try {
-      const configPath = path.resolve(options.config!);
+      const configPath = path.resolve(options.config ?? 'packages/design-tokens/style-dictionary.config.js');
       
       // Check if config exists
       if (!await fs.pathExists(configPath)) {

@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import dotenv from 'dotenv';
 import fs from 'fs-extra';
 import ora from 'ora';
-import path from 'path';
+import path from 'node:path';
 
 export const statusCommand = new Command('status')
   .description('Show status of design token pipeline')

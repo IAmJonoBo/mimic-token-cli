@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import dotenv from 'dotenv';
 import fs from 'fs-extra';
 import ora from 'ora';
-import path from 'path';
+import path from 'node:path';
 
 interface ExportOptions {
   output?: string;
@@ -154,7 +154,7 @@ export const exportCommand = new Command('export')
         }
       };
       
-      const outputPath = path.resolve(options.output!);
+      const outputPath = path.resolve(options.output ?? 'packages/design-tokens/tokens/base.json');
       const outputDir = path.dirname(outputPath);
       
       // Check if file exists

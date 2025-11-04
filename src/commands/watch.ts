@@ -1,8 +1,8 @@
 import chalk from 'chalk';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import chokidar from 'chokidar';
 import { Command } from 'commander';
-import path from 'path';
+import path from 'node:path';
 
 interface WatchOptions {
   debounce?: string;
@@ -12,7 +12,8 @@ export const watchCommand = new Command('watch')
   .description('Watch for token file changes and rebuild automatically')
   .option('-d, --debounce <ms>', 'Debounce delay in milliseconds', '500')
   .action(async (options: WatchOptions) => {
-    const debounceMs = parseInt(options.debounce || '500');
+    const parsedDebounce = Number.parseInt(options.debounce ?? '500', 10);
+    const debounceMs = Number.isNaN(parsedDebounce) ? 500 : parsedDebounce;
     
     console.log(chalk.cyan('👀 Starting token watch mode...'));
     console.log(chalk.gray(`Debounce delay: ${debounceMs}ms`));
