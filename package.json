@@ -41,7 +41,7 @@
     "inquirer": "^9.2.12",
     "fs-extra": "^11.2.0",
     "chokidar": "^3.5.3",
-    "style-dictionary": "^4.0.0",
+    "style-dictionary": "^5.0.0",
     "dotenv": "^16.3.1",
     "axios": "^1.6.0",
     "glob": "^10.3.10",
