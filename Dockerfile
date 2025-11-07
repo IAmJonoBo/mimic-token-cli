@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:24-alpine
 
 # Install required dependencies
 RUN apk add --no-cache curl jq
