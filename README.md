@@ -47,9 +47,9 @@ pnpm add -g n00plicate-token-cli
 ### Local Installation
 
 ```bash
-npm install n00plicate-token-cli
-# or
 pnpm add n00plicate-token-cli
+# or for npm users
+# npm install n00plicate-token-cli
 ```
 
 ## 🏁 Quick Start
@@ -268,9 +268,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
       
       - name: Install CLI
   run: pnpm dlx n00plicate-token-cli

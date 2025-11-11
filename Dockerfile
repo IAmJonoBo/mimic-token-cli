@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy package.json and install dependencies (if needed for penpot CLI)
 COPY package.json* ./
-RUN npm install --only=production 2>/dev/null || true
+RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install --prod --frozen-lockfile 2>/dev/null || true
 
 # Copy export script and create tokens directory
 COPY export-tokens.sh ./
