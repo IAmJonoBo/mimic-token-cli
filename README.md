@@ -7,8 +7,8 @@ mobile, and desktop applications.
 ## 🚀 Quick Start
 
 ```bash
-# Install globally
-npm install -g n00plicate-token-cli
+# Run without installing globally
+pnpm dlx n00plicate-token-cli
 
 # Initialize in your project
 n00plicate-tokens init
@@ -35,14 +35,13 @@ n00plicate-tokens watch
 
 ## 📦 Installation
 
-### Global Installation (Recommended)
+### Global Installation (Optional)
 
 ```bash
-npm install -g n00plicate-token-cli
-# or
+# Run once without installing globally
+pnpm dlx n00plicate-token-cli
+# Or install globally (optional)
 pnpm add -g n00plicate-token-cli
-# or
-yarn global add n00plicate-token-cli
 ```
 
 ### Local Installation
@@ -274,7 +273,7 @@ jobs:
           node-version: '20'
       
       - name: Install CLI
-        run: npm install -g n00plicate-token-cli
+  run: pnpm dlx n00plicate-token-cli
       
       - name: Export & Build Tokens
         env:
