@@ -1,8 +1,8 @@
-import chalk from 'chalk';
 import { execSync } from 'node:child_process';
+import path from 'node:path';
+import chalk from 'chalk';
 import chokidar from 'chokidar';
 import { Command } from 'commander';
-import path from 'node:path';
 
 interface WatchOptions {
   debounce?: string;
@@ -14,23 +14,23 @@ export const watchCommand = new Command('watch')
   .action(async (options: WatchOptions) => {
     const parsedDebounce = Number.parseInt(options.debounce ?? '500', 10);
     const debounceMs = Number.isNaN(parsedDebounce) ? 500 : parsedDebounce;
-    
+
     console.log(chalk.cyan('👀 Starting token watch mode...'));
     console.log(chalk.gray(`Debounce delay: ${debounceMs}ms`));
     console.log(chalk.gray('Press Ctrl+C to stop\n'));
-    
+
     const tokensPath = path.resolve('packages/design-tokens/tokens');
-    
+
     let timeout: NodeJS.Timeout | null = null;
-    
+
     const rebuild = () => {
       if (timeout) {
         clearTimeout(timeout);
       }
-      
+
       timeout = setTimeout(() => {
         console.log(chalk.yellow('🔄 Rebuilding tokens...'));
-        
+
         try {
           execSync('n00plicate-tokens build', { stdio: 'pipe' });
           console.log(chalk.green('✅ Rebuild completed successfully'));
@@ -40,13 +40,13 @@ export const watchCommand = new Command('watch')
         }
       }, debounceMs);
     };
-    
+
     // Watch for changes
     const watcher = chokidar.watch(`${tokensPath}/**/*.json`, {
       ignoreInitial: true,
       persistent: true,
     });
-    
+
     watcher
       .on('change', (filePath) => {
         console.log(chalk.blue(`📝 Changed: ${path.relative(process.cwd(), filePath)}`));
@@ -63,7 +63,7 @@ export const watchCommand = new Command('watch')
       .on('error', (error) => {
         console.error(chalk.red('❌ Watch error:'), error);
       });
-    
+
     // Initial build
     console.log(chalk.yellow('🔄 Initial build...'));
     try {
@@ -73,9 +73,9 @@ export const watchCommand = new Command('watch')
       const err = _error instanceof Error ? _error : new Error(String(_error));
       console.error(chalk.red('❌ Initial build failed:'), err);
     }
-    
+
     console.log(chalk.cyan(`\n👀 Watching ${tokensPath} for changes...`));
-    
+
     // Keep the process alive
     process.on('SIGINT', () => {
       console.log(chalk.yellow('\n🛑 Stopping watch mode...'));

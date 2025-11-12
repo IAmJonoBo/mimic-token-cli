@@ -1,6 +1,6 @@
-import chalk from 'chalk';
 import { execSync } from 'node:child_process';
 import { isDeepStrictEqual } from 'node:util';
+import chalk from 'chalk';
 import { Command } from 'commander';
 import fs from 'fs-extra';
 
@@ -20,13 +20,13 @@ export const diffCommand = new Command('diff')
       const baseRef = options.base || 'main';
       const headRef = options.head || 'HEAD';
       const tokensPath = 'packages/design-tokens/tokens/base.json';
-      
+
       console.log(chalk.cyan(`🔍 Comparing tokens: ${baseRef}...${headRef}`));
-      
+
       // Get token files from both refs
       let baseTokens: TokenValue = {};
       let headTokens: TokenValue = {};
-      
+
       try {
         const baseContent = execSync(`git show ${baseRef}:${tokensPath}`, { encoding: 'utf8' });
         baseTokens = parseTokenValue(baseContent);
@@ -40,20 +40,19 @@ export const diffCommand = new Command('diff')
       } catch {
         console.log(chalk.yellow(`⚠️ No tokens found in ${headRef}`));
       }
-      
+
       // Compare tokens
       const changes = compareTokens(baseTokens, headTokens);
-      
+
       // Generate report
       const report = generateDiffReport(changes, baseRef, headRef);
-      
+
       if (options.output) {
         await fs.writeFile(options.output, report);
         console.log(chalk.green(`📄 Diff report saved to: ${options.output}`));
       } else {
         console.log(report);
       }
-      
     } catch (error) {
       console.error(chalk.red('❌ Diff failed:'), error);
       process.exit(1);

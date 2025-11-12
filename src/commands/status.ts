@@ -1,10 +1,10 @@
+import path from 'node:path';
 import axios from 'axios';
 import chalk from 'chalk';
 import { Command } from 'commander';
 import dotenv from 'dotenv';
 import fs from 'fs-extra';
 import ora from 'ora';
-import path from 'node:path';
 
 export const statusCommand = new Command('status')
   .description('Show status of design token pipeline')
@@ -31,7 +31,7 @@ export const statusCommand = new Command('status')
       try {
         await axios.get(`${baseUrl}/api/rpc/command/get-profile`, {
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           timeout: 5000,
         });
@@ -74,7 +74,7 @@ export const statusCommand = new Command('status')
       const tokensDir = 'packages/design-tokens/tokens';
       if (await fs.pathExists(tokensDir)) {
         const files = await fs.readdir(tokensDir);
-        const jsonFiles = files.filter(f => f.endsWith('.json'));
+        const jsonFiles = files.filter((f) => f.endsWith('.json'));
 
         for (const file of jsonFiles.slice(0, 3)) {
           const filePath = path.join(tokensDir, file);

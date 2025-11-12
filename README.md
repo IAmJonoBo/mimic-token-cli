@@ -48,8 +48,6 @@ pnpm add -g n00plicate-token-cli
 
 ```bash
 pnpm add n00plicate-token-cli
-# or for npm users
-# npm install n00plicate-token-cli
 ```
 
 ## 🏁 Quick Start
