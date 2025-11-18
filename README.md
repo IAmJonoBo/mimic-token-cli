@@ -448,8 +448,8 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/IAmJonoBo/n00plicate-token-cli/issues)
-- **Discussions**: [Community help and ideas](https://github.com/IAmJonoBo/n00plicate-token-cli/discussions)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/n00tropic/n00plicate-token-cli/issues)
+- **Discussions**: [Community help and ideas](https://github.com/n00tropic/n00plicate-token-cli/discussions)
 
 ---
 
